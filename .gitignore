@@ -1,0 +1,30 @@
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.env
+.env.*
+
+# Keep app sources and reproducible checks; omit downloaded maps and scratch files.
+/work/*
+!/work/route-studio/
+/work/route-studio/*
+!/work/route-studio/dist/
+!/work/build-studio.py
+!/work/prepare_data.py
+!/work/build-background-assets.py
+!/work/land-10m.geojson
+!/work/qa-backgrounds.cjs
+!/work/eox-test-z14.jpg
+!/work/highres-qa/
+/work/highres-qa/*
+!/work/highres-qa/verify.cjs
+!/work/highres-qa/verify-bundle.cjs
+!/work/highres-qa/sample.json
+
+# Preserve the current deliverables; earlier exploratory renders stay on disk.
+/outputs/*
+!/outputs/Random-Voyage-Map-Studio.html
+!/outputs/사용방법.txt
+!/outputs/지도배경_자료출처.txt
+!/outputs/Ishigaki_Satellite_HD_4K.png

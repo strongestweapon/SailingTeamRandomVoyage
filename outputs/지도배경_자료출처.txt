@@ -1,0 +1,42 @@
+지도 배경 — 도구의 4가지 뷰와 3840 × 2160 샘플
+
+기존 세 비교 샘플은 같은 메르카토르 투영, 같은 지도 구도, 같은 원본 GPX 경로를 사용합니다.
+전체 항적과 지명은 별도 벡터로 렌더링했습니다. 선택 구간은 Naha - Jeju입니다.
+원본 위도·경도 래스터를 메르카토르 투영에 맞춰 변환했습니다. 도구의 지도 배경 메뉴에서 뷰를 전환하고 확대·이동 및 4K PNG 저장에 사용할 수 있습니다.
+도구에는 65–180°E, 0–65°N 영역을 6900 × 5179 픽셀로 투영한 배경을 내장했습니다. 이 세 내장 배경에는 인터넷 연결이 필요하지 않습니다.
+바다 투명 모드의 육지 마스크는 Natural Earth 해안선을 사용합니다.
+
+01. Navionics 색상
+사용자 제공 Navionics 스크린샷의 색상을 사용한 Natural Earth 기반 지도입니다.
+Navionics 원본 해도나 수심 데이터를 사용한 것이 아닙니다.
+
+02. 위성 합성 + 지형·해저 음영
+Source imagery: NASA Earth Observatory, Blue Marble: Next Generation, June 2004, with topography and bathymetry.
+2004년 6월 관측을 바탕으로 만든 합성 자료이며 항해 당시 촬영 영상이 아닙니다.
+원본: 21600 × 10800 pixels (약 2 km/pixel). 전체 항해 범위를 보여주는 용도입니다.
+https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/
+https://www.nasa.gov/nasa-brand-center/images-and-media/
+영상 크레딧에 쓸 수 있는 문구: Background imagery: NASA Earth Observatory / Blue Marble Next Generation (2004).
+
+03. 지형·해저 음영
+Natural Earth II with Shaded Relief and Water, 1:10m, version 3.2.0.
+위성사진 자체가 아니라 지표 색상과 지형·해저 음영을 결합한 지도입니다.
+원본: 21600 × 10800 pixels, EPSG:4326.
+https://www.naturalearthdata.com/downloads/10m-raster-data/10m-natural-earth-2/
+Natural Earth 자료는 public domain이며 사용 허가나 출처 표기가 필수는 아닙니다.
+https://www.naturalearthdata.com/about/terms-of-use/
+
+04. 고해상도 위성 · 온라인
+EOX Sentinel-2 cloudless 2016, Web Mercator WMTS.
+공개 타일: https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg
+서비스 안내: https://maps.eox.at/
+라이선스 확인: https://cloudless.eox.at/pricing
+사용 안내: https://cloudless.eox.at/documentation/usage
+2016 자료는 Creative Commons Attribution 4.0 International (CC BY 4.0)입니다.
+https://creativecommons.org/licenses/by/4.0/
+앱에서는 2016 레이어만 요청합니다. 최신 연도의 다른 라이선스 레이어를 사용하지 않습니다.
+지도 이동·확대 후 보이는 영역의 타일을 최대 4개 요청씩 불러오며, 4K 저장에는 출력 크기에 맞는 타일을 사용합니다. 타일 단계는 최대 z14입니다.
+자료의 연도는 2016년 합성을 뜻하며 실제 GPX 촬영·항해 시점과 다릅니다. 서비스 가용성과 인터넷 연결에 따라 다운로드가 실패할 수 있습니다.
+표기: EOxCloudless https://cloudless.eox.at by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016), CC BY 4.0.
+앱의 출처 링크와 PNG 하단 출처 문구를 유지합니다. 이미지는 현재 구도에 맞게 잘라서 재표본화하고 GPX 항적·지명을 합성합니다.
+고해상도 샘플: Ishigaki_Satellite_HD_4K.png. 2024-06-24-06-50-50 구간의 이시가키 도착 지점 부근이며, 전체 기본 구도 대비 25,600% 확대입니다.
