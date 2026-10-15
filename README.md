@@ -20,7 +20,8 @@ The app and its history include private route coordinates.
 - `work/build-background-assets.py`: optional offline-imagery regeneration;
   requires Pillow and the original NASA/Natural Earth downloads, excluded from Git.
   The already generated `backgrounds.js` is tracked and sufficient for normal builds.
-- `work/qa-backgrounds.cjs`, `work/highres-qa/verify*.cjs`: local regression checks.
+- `work/qa-backgrounds.cjs`, `work/qa-label-placement.cjs`,
+  `work/highres-qa/verify*.cjs`: local regression checks.
 - `outputs/`: tracked current app, instructions, source credits and latest Ishigaki
   4K reference image. Other renders remain on disk but are excluded from version history.
 
@@ -39,6 +40,7 @@ zoom and the bundled output.
 
 ```sh
 /Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node work/qa-backgrounds.cjs
+/Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node work/qa-label-placement.cjs
 /Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node work/highres-qa/verify.cjs
 /Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node work/highres-qa/verify-bundle.cjs
 ```

@@ -15,6 +15,7 @@ node_modules/
 !/work/build-background-assets.py
 !/work/land-10m.geojson
 !/work/qa-backgrounds.cjs
+!/work/qa-label-placement.cjs
 !/work/eox-test-z14.jpg
 !/work/highres-qa/
 /work/highres-qa/*

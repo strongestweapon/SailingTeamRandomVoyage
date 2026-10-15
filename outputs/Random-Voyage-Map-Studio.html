@@ -162,6 +162,44 @@ function render(data,opt={}){
   };
   const markerPad=options.endpointEmphasis?22:12;
   const markerBoxes=projected.filter(e=>onScreen(e.xy)).map(e=>({x:e.xy[0]-markerPad,y:e.xy[1]-markerPad,w:markerPad*2,h:markerPad*2}));
+  // Index the visible route geometry in screen space so label placement also
+  // avoids track lines. Subpixel simplification affects only this collision index.
+  const cell=128,cols=Math.ceil(W/cell),rows=Math.ceil(H/cell),routeCells=new Map();
+  const routeGap=9+(isExpedition?Math.max(1,Math.min(20,Number(options.lineWidth)||7)):isOverlay?Math.max(5,Number(options.lineWidth)||5):23)/2;
+  const cellRange=b=>[Math.max(0,Math.floor(b.x/cell)),Math.min(cols-1,Math.floor((b.x+b.w)/cell)),Math.max(0,Math.floor(b.y/cell)),Math.min(rows-1,Math.floor((b.y+b.h)/cell))];
+  function indexEdge(a,b){
+   const left=Math.min(a[0],b[0]),top=Math.min(a[1],b[1]),right=Math.max(a[0],b[0]),bottom=Math.max(a[1],b[1]);
+   if(right<0||left>W||bottom<0||top>H)return;
+   const edge=[...a,...b],range=cellRange({x:left,y:top,w:right-left,h:bottom-top});
+   for(let yy=range[2];yy<=range[3];yy++)for(let xx=range[0];xx<=range[1];xx++){
+    const key=yy*cols+xx;if(!routeCells.has(key))routeCells.set(key,[]);routeCells.get(key).push(edge);
+   }
+  }
+  for(const track of visible)for(const segment of track.segments){
+   if(!segment.length)continue;
+   let previous=point(segment[0]);
+   for(let i=1;i<segment.length;i++){
+    const next=point(segment[i]);if(i<segment.length-1&&Math.hypot(next[0]-previous[0],next[1]-previous[1])<.75)continue;
+    indexEdge(previous,next);previous=next;
+   }
+  }
+  function routeOverlap(box){
+   const b={x:box.x-routeGap,y:box.y-routeGap,w:box.w+routeGap*2,h:box.h+routeGap*2},range=cellRange(b),seen=new Set();
+   let length=0;
+   for(let yy=range[2];yy<=range[3];yy++)for(let xx=range[0];xx<=range[1];xx++)for(const edge of routeCells.get(yy*cols+xx)||[]){
+    if(seen.has(edge))continue;seen.add(edge);
+    const [x0,y0,x1,y1]=edge,dx=x1-x0,dy=y1-y0;
+    let enter=0,leave=1;
+    for(const [start,delta,min,max]of [[x0,dx,b.x,b.x+b.w],[y0,dy,b.y,b.y+b.h]]){
+     if(Math.abs(delta)<1e-9){if(start<min||start>max){leave=-1;break;}continue;}
+     const a=(min-start)/delta,z=(max-start)/delta;
+     enter=Math.max(enter,Math.min(a,z));leave=Math.min(leave,Math.max(a,z));
+     if(leave<enter)break;
+    }
+    if(leave>=enter)length+=Math.max(.01,(leave-enter)*Math.hypot(dx,dy));
+   }
+   return length;
+  }
   function label(e,selectedLabel,detail=''){
    const [x,y]=e.xy;if(!onScreen(e.xy))return;
    const emphasized=selectedLabel&&options.endpointEmphasis;
@@ -169,28 +207,33 @@ function render(data,opt={}){
    const w=Math.max(...lines.map(s=>textWidth(s,size)),detail?textWidth(detail,detailSize):0)+16;
    const h=lines.length*size*1.15+(detail?detailSize*1.65:0)+10,offset=emphasized?42:25;
    const right=x+offset,left=x-offset-w;
-   const candidates=[{x:right,y:y-h-18},{x:left,y:y-h-18},{x:right,y:y+22},{x:left,y:y+22},{x:x-w/2,y:y-h-offset},{x:x-w/2,y:y+offset}];
+   const candidates=[{x:right,y:y-h-18},{x:left,y:y-h-18},{x:right,y:y+22},{x:left,y:y+22},{x:x-w/2,y:y-h-offset},{x:x-w/2,y:y+offset},{x:left,y:y-h/2},{x:right,y:y-h/2}];
    // Nearby endpoints get opposite sides and leader lines, including whole-map views of short passages.
    if(selectedLabel&&e.role==='start')candidates.unshift({x:left,y:y+22});
-   let chosen=null,best=Infinity;
-   for(const c of candidates){
+   let chosen=null,best=Infinity,chosenHits=Infinity,chosenInk=Infinity;
+   function consider(c,order){
     const b={x:Math.max(30,Math.min(W-w-30,c.x)),y:Math.max(30,Math.min(H-h-30,c.y)),w,h};
     const overlap=boxes.filter(a=>intersects(a,b,22)).length+markerBoxes.filter(a=>intersects(a,b,10)).length;
-    const score=overlap*100000+Math.hypot(b.x-c.x,b.y-c.y);
-    if(score<best){best=score;chosen=b;}
+    const ink=routeOverlap(b),distance=Math.hypot(x-Math.max(b.x,Math.min(b.x+w,x)),y-Math.max(b.y,Math.min(b.y+h,y)));
+    const score=overlap*1e9+(ink>0?1e6+Math.min(ink,1e4)*10:0)+distance+Math.hypot(b.x-c.x,b.y-c.y)+order*.1;
+    if(score<best){best=score;chosen=b;chosenHits=overlap;chosenInk=ink;}
    }
-   if(!selectedLabel&&best>=100000)return;
-   // Search farther away if both selected names would collide after viewport clamping.
-   if(selectedLabel&&best>=100000){
-    for(let step=1;step<=8&&best>=100000;step++)for(const sign of [-1,1])for(const xx of [left,right]){
-     const b={x:Math.max(30,Math.min(W-w-30,xx)),y:Math.max(30,Math.min(H-h-30,y+sign*(h+30)*step)),w,h};
-     if(!boxes.some(a=>intersects(a,b,22))&&!markerBoxes.some(a=>intersects(a,b,10))){chosen=b;best=0;break;}
+   candidates.forEach(consider);
+   // Dense harbors may have tracks on every side. Widen the search while
+   // preserving the exact marker position and the user's font size.
+   for(const gap of [70,130,210,320,480,700]){
+    if(chosenHits===0&&chosenInk===0)break;
+    for(const dx of [-1,0,1])for(const dy of [-1,0,1]){
+     if(!dx&&!dy)continue;
+     consider({x:dx<0?x-gap-w:dx>0?x+gap:x-w/2,y:dy<0?y-gap-h:dy>0?y+gap:y-h/2},candidates.length);
     }
    }
+   if(!selectedLabel&&chosenHits>0)return;
    boxes.push(chosen);
-   const lx=Math.max(chosen.x,Math.min(chosen.x+w,x)),ly=Math.max(chosen.y+8,Math.min(chosen.y+h-8,y));
+   const lx=Math.max(chosen.x,Math.min(chosen.x+w,x)),ly=Math.max(chosen.y,Math.min(chosen.y+h,y));
+   const leaderLength=Math.hypot(lx-x,ly-y),leaderScale=leaderLength?Math.max(0,(leaderLength-8)/leaderLength):0;
    out.push(`<g data-role="${selectedLabel?'endpoint-label':'port-label'}" ${fixedAttrs(x,y)} data-endpoint="${esc(e.role||'')}" data-name="${esc(e.name)}" data-track-ids="${esc(e.trackIds?.join('|')||'')}" data-box="${[chosen.x,chosen.y,w,h].map(num).join(',')}">`);
-   if(emphasized||Math.hypot(lx-x,ly-y)>45)out.push(`<path d="M${num(x)},${num(y)}L${num(lx)},${num(ly)}" fill="none" stroke="${ink}" stroke-width="${emphasized?2:1.4}" opacity=".55"/>`);
+   if(emphasized||leaderLength>45)out.push(`<path data-role="label-leader" d="M${num(x)},${num(y)}L${num(x+(lx-x)*leaderScale)},${num(y+(ly-y)*leaderScale)}" fill="none" stroke="${ink}" stroke-width="${emphasized?2:1.4}" opacity=".55"/>`);
    for(const [i,line]of lines.entries())out.push(`<text x="${num(chosen.x+8)}" y="${num(chosen.y+size*(i*1.15+.9))}" font-family="${labelFont}" font-size="${size}" font-weight="${emphasized?600:400}" fill="${ink}" paint-order="stroke" stroke="${halo}" stroke-width="${plainLabels?2:emphasized?9:7}" stroke-linejoin="round">${esc(line)}</text>`);
    if(detail)out.push(`<text x="${num(chosen.x+8)}" y="${num(chosen.y+lines.length*size*1.15+detailSize*.95)}" font-family="${labelFont}" font-size="${detailSize}" letter-spacing="${2*labelScale}" fill="${ink}" paint-order="stroke" stroke="${halo}" stroke-width="${plainLabels?2:6}" stroke-linejoin="round">${detail}</text>`);
    out.push('</g>');
