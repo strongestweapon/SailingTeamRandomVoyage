@@ -4,6 +4,22 @@ __pycache__/
 node_modules/
 .env
 .env.*
+!.env.example
+.venv/
+venv/
+.pnpm-store/
+coverage/
+*.log
+*.tmp
+*.swp
+.idea/
+.vscode/
+
+# Import original voyage files locally; the explicitly bundled data.js stays tracked.
+*.gpx
+*.GPX
+*.ADM
+*.adm
 
 # Keep app sources and reproducible checks; omit downloaded maps and scratch files.
 /work/*

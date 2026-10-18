@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-const sharp=require('/Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=require('sharp');
 const dir='work/route-studio/dist/';
 fs.mkdirSync('work/map-backgrounds',{recursive:true});
 const c={window:{}};vm.createContext(c);

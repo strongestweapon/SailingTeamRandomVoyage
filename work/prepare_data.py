@@ -1,7 +1,11 @@
 from pathlib import Path
-import json, math, xml.etree.ElementTree as E
-root=Path('/Users/hojunsong/Dropbox/HojunSong/SVrandom/GPX/gpxfcpx')
-out=Path('work/route-studio/dist'); ns={'g':'http://www.topografix.com/GPX/1/1'}
+import argparse, json, math, xml.etree.ElementTree as E
+parser=argparse.ArgumentParser(description='Rebuild the bundled voyage data from the ten original GPX files.')
+parser.add_argument('--gpx-dir',type=Path,required=True,help='Directory containing the original GPX files; files are read only.')
+root=parser.parse_args().gpx_dir.expanduser().resolve()
+if not root.is_dir():parser.error('GPX directory does not exist: '+str(root))
+workspace=Path(__file__).resolve().parent.parent
+out=workspace/'work/route-studio/dist'; ns={'g':'http://www.topografix.com/GPX/1/1'}
 data=[]
 for filename in ['Random()2025A.gpx','Random()2025B.gpx','RCSR2024.gpx',
                  '2024-06-16-08-26-16.gpx','2024-06-24-06-50-50.gpx','2024-06-27-09-07-05.gpx',
@@ -19,7 +23,7 @@ for filename in ['Random()2025A.gpx','Random()2025B.gpx','RCSR2024.gpx',
   if segments: tracks.append({'id':filename+':'+str(index),'name':t.findtext('g:name',default='Track '+str(index+1),namespaces=ns),'segments':segments,'start':times[0] if times else None,'end':times[-1] if times else None})
  data.append({'name':f.stem,'history':filename.startswith('Start'),'tracks':tracks})
 # Clip land polygons to the supported East Asian area; retain islands and holes.
-land=json.loads(Path('work/land-10m.geojson').read_text())
+land=json.loads((workspace/'work/land-10m.geojson').read_text())
 def clip(poly, axis, bound, lower):
  if not poly:return []
  result=[]; a=poly[-1]; ai=(a[axis]>=bound if lower else a[axis]<=bound)

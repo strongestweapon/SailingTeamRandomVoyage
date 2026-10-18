@@ -1,0 +1,31 @@
+name: 버그 보고
+description: 재현 가능한 오류와 지도 설정을 기록합니다.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: 현재 동작과 기대 동작
+      description: 무엇을 했을 때 어떤 문제가 생기는지 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 순서
+      placeholder: "1. 배경 선택\n2. 구간 선택\n3. 확대 또는 저장"
+    validations:
+      required: true
+  - type: textarea
+    id: settings
+    attributes:
+      label: 환경과 설정
+      description: 브라우저·OS·커밋, 지도 배경, 구간, 확대율, 지명 크기, 투명 여부를 알려 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 화면 또는 검증 결과
+      description: 공유 가능한 화면이나 오류 문구를 첨부하세요. 원본 GPX 첨부는 필수가 아닙니다.

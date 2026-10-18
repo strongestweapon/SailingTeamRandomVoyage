@@ -1,0 +1,110 @@
+[
+  {
+    "id": "gpx-routes",
+    "title": "GPX 트리와 81개 구간의 다중 선택",
+    "label": "enhancement",
+    "state": "closed",
+    "body": "docs/issues/gpx-routes.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/1",
+    "number": 1
+  },
+  {
+    "id": "map-backgrounds",
+    "title": "지도 배경·색상과 4K 이미지 출력",
+    "label": "enhancement",
+    "state": "closed",
+    "body": "docs/issues/map-backgrounds.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/2",
+    "number": 2
+  },
+  {
+    "id": "labels-coordinates",
+    "title": "지명 설정과 목적지 좌표 복사",
+    "label": "enhancement",
+    "state": "closed",
+    "body": "docs/issues/labels-coordinates.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/3",
+    "number": 3
+  },
+  {
+    "id": "transparent-overlay",
+    "title": "바다 투명과 육지 불투명도 오버레이",
+    "label": "enhancement",
+    "state": "closed",
+    "body": "docs/issues/transparent-overlay.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/4",
+    "number": 4
+  },
+  {
+    "id": "satellite-hd",
+    "title": "온라인 고해상도 위성과 25,600% 확대",
+    "label": "enhancement",
+    "state": "closed",
+    "body": "docs/issues/satellite-hd.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/5",
+    "number": 5
+  },
+  {
+    "id": "hong-kong-labels",
+    "title": "홍콩 지명과 항적의 겹침 수정",
+    "label": "bug",
+    "state": "closed",
+    "body": "docs/issues/hong-kong-labels.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/6",
+    "number": 6
+  },
+  {
+    "id": "repository",
+    "title": "공개 저장소 문서·MIT·개발 환경·이슈 정리",
+    "label": "documentation",
+    "state": "open",
+    "body": "docs/issues/repository.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/7",
+    "number": 7
+  },
+  {
+    "id": "session-persistence",
+    "title": "설정·추가 GPX의 프로젝트 저장과 복원",
+    "label": "enhancement",
+    "state": "open",
+    "body": "docs/issues/session-persistence.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/8",
+    "number": 8
+  },
+  {
+    "id": "coastline-mask",
+    "title": "고배율 위성 오버레이의 해안선 마스크 정밀도",
+    "label": "enhancement",
+    "state": "open",
+    "body": "docs/issues/coastline-mask.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/9",
+    "number": 9
+  },
+  {
+    "id": "label-performance",
+    "title": "대량 항적 선택 시 지명 배치 성능 개선",
+    "label": "enhancement",
+    "state": "open",
+    "body": "docs/issues/label-performance.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/10",
+    "number": 10
+  },
+  {
+    "id": "coverage",
+    "title": "동아시아 외 GPX와 다양한 GPX 형식 지원",
+    "label": "enhancement",
+    "state": "open",
+    "body": "docs/issues/coverage.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/11",
+    "number": 11
+  },
+  {
+    "id": "browser-checks",
+    "title": "Chrome·Safari의 실제 4K 다운로드·알파 검증 기록",
+    "label": "enhancement",
+    "state": "open",
+    "body": "docs/issues/browser-checks.md",
+    "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/12",
+    "number": 12
+  }
+]

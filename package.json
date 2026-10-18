@@ -1,0 +1,19 @@
+{
+  "name": "sailing-team-random-voyage",
+  "version": "1.0.1",
+  "private": true,
+  "description": "GPX voyage maps and transparent overlays for 4K sailing videos",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/strongestweapon/SailingTeamRandomVoyage.git" },
+  "engines": { "node": ">=22.13.0" },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "build": "python3 work/build-studio.py",
+    "test": "node scripts/test.cjs",
+    "test:bundle": "node work/highres-qa/verify-bundle.cjs",
+    "test:labels": "node work/qa-label-placement.cjs",
+    "test:backgrounds": "node work/qa-backgrounds.cjs",
+    "test:highres": "node work/highres-qa/verify.cjs"
+  },
+  "devDependencies": { "sharp": "0.35.5" }
+}

@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-const sharp=require('/Users/hojunsong/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=require('sharp');
 const dir='work/route-studio/dist/',tiny=fs.readFileSync('work/eox-test-z14.jpg'),dataURL='data:image/jpeg;base64,'+tiny.toString('base64');
 const settle=()=>new Promise(r=>setImmediate(r));
 (async()=>{

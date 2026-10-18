@@ -1,0 +1,23 @@
+name: 기능 제안
+description: 영상 제작에 필요한 기능과 완료 조건을 정리합니다.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 사용 목적
+      description: 어떤 영상·지도 작업을 더 쉽게 하고 싶은가요?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: 원하는 동작
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 완료 조건과 참고 자료
+      description: 미리보기와 4K 출력에서 확인할 조건을 적어 주세요.

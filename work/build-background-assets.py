@@ -6,7 +6,8 @@ import json
 import math
 
 Image.MAX_IMAGE_PIXELS = None
-base = Path('work/map-backgrounds')
+workspace = Path(__file__).resolve().parent.parent
+base = workspace / 'work/map-backgrounds'
 west, south, east, north = 65, 0, 180, 65
 merc_north = math.degrees(math.log(math.tan(math.pi / 4 + math.radians(north) / 2)))
 width = 6900
@@ -33,4 +34,4 @@ for kind, filename in [('satellite', 'nasa-june-2004.jpg'), ('relief', 'NE2_HR_L
     assets[kind] = {'bounds': [west, south, east, north], 'width': width, 'height': height,
                     'url': 'data:image/jpeg;base64,' + base64.b64encode(path.read_bytes()).decode('ascii')}
     print(kind, width, height, round(path.stat().st_size / 1024**2, 2), 'MiB', flush=True)
-Path('work/route-studio/dist/backgrounds.js').write_text('window.ROUTE_BACKGROUNDS=' + json.dumps(assets, separators=(',', ':')) + ';\n')
+(workspace / 'work/route-studio/dist/backgrounds.js').write_text('window.ROUTE_BACKGROUNDS=' + json.dumps(assets, separators=(',', ':')) + ';\n')
