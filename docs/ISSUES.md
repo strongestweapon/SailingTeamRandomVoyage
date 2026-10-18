@@ -10,7 +10,7 @@
 | [#4](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/4) | 바다 투명과 육지 불투명도 오버레이 | 완료 | [내용](issues/transparent-overlay.md) |
 | [#5](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/5) | 온라인 고해상도 위성과 25,600% 확대 | 완료 | [내용](issues/satellite-hd.md) |
 | [#6](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/6) | 홍콩 지명과 항적의 겹침 수정 | 완료 | [내용](issues/hong-kong-labels.md) |
-| [#7](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/7) | 공개 저장소 문서·MIT·개발 환경·이슈 정리 | 열림 | [내용](issues/repository.md) |
+| [#7](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/7) | 공개 저장소 문서·MIT·개발 환경·이슈 정리 | 완료 | [내용](issues/repository.md) |
 | [#8](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/8) | 설정·추가 GPX의 프로젝트 저장과 복원 | 열림 | [내용](issues/session-persistence.md) |
 | [#9](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/9) | 고배율 위성 오버레이의 해안선 마스크 정밀도 | 열림 | [내용](issues/coastline-mask.md) |
 | [#10](https://github.com/strongestweapon/SailingTeamRandomVoyage/issues/10) | 대량 항적 선택 시 지명 배치 성능 개선 | 열림 | [내용](issues/label-performance.md) |
